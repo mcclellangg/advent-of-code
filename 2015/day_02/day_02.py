@@ -32,3 +32,17 @@ print(f"Total sq ft to order: {total_sq_ft}")
 
 # Part 2 #
 "https://adventofcode.com/2015/day/2#part2"
+
+total_ft_ribbon = 0
+
+# Calculate total ribbon needed
+for d in dimensions:
+    d = [int(s) for s in d]
+    d.sort()
+    l, w, h = d[0], d[1], d[2]
+    ft_wrap = (l * 2) + (w * 2)
+    ft_bow = l * w * h
+
+    total_ft_ribbon += ft_wrap + ft_bow
+
+print(f"Total ft ribbon to order: {total_ft_ribbon}")
