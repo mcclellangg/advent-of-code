@@ -9,9 +9,9 @@ from pathlib import Path
 # Part 1 #
 
 # Load and parse input
-FILE_PATH = Path(__file__).parent / 'input.txt'
+FILE_PATH = Path(__file__).parent / "input.txt"
 data = FILE_PATH.read_text().strip().splitlines()
-dimensions = [d.split('x') for d in data] # Sort seems expensive
+dimensions = [d.split("x") for d in data]  # Sort seems expensive
 
 # Verify input
 assert len(dimensions) == 1000
@@ -24,7 +24,7 @@ for d in dimensions:
     d.sort()
     l, w, h = d[0], d[1], d[2]
     slack = d[0] * d[1]
-    sq_ft = (2 * (l*w)) + (2 * (w*h)) + (2*(h*l))
+    sq_ft = (2 * (l * w)) + (2 * (w * h)) + (2 * (h * l))
 
     total_sq_ft += slack + sq_ft
 
