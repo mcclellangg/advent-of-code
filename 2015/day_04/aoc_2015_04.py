@@ -1,8 +1,6 @@
 """
-url: https://adventofcode.com/2015/day/4
-tags: md5, hash, cryptography
-
-# 9:24
+url:    https://adventofcode.com/2015/day/4
+tags:   md5, hash, cryptography
 """
 
 from pathlib import Path
@@ -35,7 +33,7 @@ def find_suffix(data: list, hash_prefix: str) -> str:
 
         if hex_hash[:n] == hash_prefix:
             print(f"Suffix found: {k_suffix}")
-            print(f"Match found: {hex_hash}")
+            print(f"Hash found: {hex_hash}")
             return k_suffix
 
     return "No hash found..."

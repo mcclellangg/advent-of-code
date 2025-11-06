@@ -1,3 +1,11 @@
+"""
+Copy contents of template directory to new directory given provided year, and day.
+
+Example:
+# Create a dir 2015/day_01
+python setup_challenge.py --year 2015 --day 1
+"""
+
 import argparse
 from datetime import datetime
 from pathlib import Path
@@ -21,7 +29,7 @@ def replace_date(s: str, year: int, day: int) -> str:
 def create_challenge_dir(year: int, day: int):
     """Copy contents of template dir to new challenge dir provided by args"""
     # Create dir (YYYY/day_dd/)
-    challenge_dir = base_dir / str(year) / f"day_{day:02}"
+    challenge_dir = base_dir / str(year) / f"day_{day:02}" # Adds leading 0
     challenge_dir.mkdir(parents=True, exist_ok=True)
 
     # Copy contents of tmpl to new dir

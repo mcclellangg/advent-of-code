@@ -1,7 +1,7 @@
 """
 # Day 03
 
-url: https://adventofcode.com/2015/day/3
+url:   https://adventofcode.com/2015/day/3
 part2: https://adventofcode.com/2015/day/3#part2
 """
 
