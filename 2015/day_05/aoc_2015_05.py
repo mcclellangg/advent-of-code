@@ -54,8 +54,51 @@ def part_1(data: list) -> int:
 
 
 def part_2(data: list) -> int:
-    """Return solution for part_2."""
-    return 0
+    """
+    Brute Force attempt.
+    Is aaabaaa an acceptable solution?
+    45 ...
+
+    Come back and retest
+    """
+    nice_kids = 0
+    n = len(data[0])  # all strs same len
+
+    for kid in data:
+        nice_window = False
+        nice_pairs = False
+
+        # check w/ sliding window
+        for i in range(0, n - 2):
+            if kid[i] == kid[i + 2]:
+                nice_window = True
+                break
+
+        # check for pairs
+        if nice_window:
+            prev_pair = kid[0:2]
+            pairs = []
+
+            for i in range(2, n):
+                c_pair = kid[i - 1] + kid[i]  # hj
+
+                if c_pair != prev_pair:
+                    pairs.append(prev_pair)
+
+                prev_pair = c_pair
+
+            if kid[-1:n] != pairs[-1]:
+                pairs.append(kid[-1:n])
+
+            for p in pairs:
+                if pairs.count(p) >= 2:
+                    nice_pairs = True
+                    break
+
+        if nice_window and nice_pairs:
+            nice_kids += 1
+
+    return nice_kids
 
 
 if __name__ == "__main__":
