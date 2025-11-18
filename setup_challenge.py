@@ -23,11 +23,15 @@ def replace_date(s: str, year: int, day: int) -> str:
     Example usage:
     aoc_yyyy_dd.py -> aoc_2015_04.py
     """
-    return s.replace("yyyy", str(year)).replace("dd", f"{day:02}")
+    return s.replace("yyyy", str(year)).replace("dd", f"{day:02}") # Adds leading 0
 
 
 def create_challenge_dir(year: int, day: int):
-    """Copy contents of template dir to new challenge dir provided by args"""
+    """Copy contents of template dir to new challenge dir provided by args
+    
+    # BUG: if no day is passed from argparse, argument error occurs.
+    error: argument --day: expected one argument
+    """
     # Create dir (YYYY/day_dd/)
     challenge_dir = base_dir / str(year) / f"day_{day:02}" # Adds leading 0
     challenge_dir.mkdir(parents=True, exist_ok=True)
