@@ -40,7 +40,7 @@ def create_challenge_dir(year: int, day: int):
     for file in template_dir.iterdir():
         file_name = replace_date(s=file.name, year=year, day=day)
         dest = challenge_dir / file_name
-        dest.write_text(file.read_text())
+        dest.write_text(replace_date(file.read_text(), year=year, day=day))
 
     print(f"Folder created: {challenge_dir.name}")
     return challenge_dir
