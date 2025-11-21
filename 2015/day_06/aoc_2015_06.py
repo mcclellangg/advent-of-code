@@ -1,6 +1,6 @@
 """
 url:    https://adventofcode.com/2015/day/6
-tags:
+tags:   todo
 """
 
 from pathlib import Path

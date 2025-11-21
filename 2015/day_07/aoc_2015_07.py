@@ -1,6 +1,6 @@
 """
 url:    https://adventofcode.com/2015/day/7
-tags:
+tags:   todo
 log:    20m
 """
 
@@ -21,7 +21,7 @@ def part_1(data: list) -> int:
     Create a graph to represent wires, and gates
     """
     assert len(data) == 339
-    
+
     # Iter instructions and build circuit
 
     # Circuit rules (wires first, then gates)
