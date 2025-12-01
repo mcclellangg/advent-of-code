@@ -12,7 +12,7 @@ from pathlib import Path
 
 base_dir = Path(__file__).parent
 template_dir = base_dir / "tmpl"
-default_yr = 2015  # datetime.now().year
+default_yr = 2025  # datetime.now().year
 
 
 # HELPERS
