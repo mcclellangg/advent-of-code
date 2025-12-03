@@ -1,5 +1,5 @@
 """
-url:    https://adventofcode.com/
+url:    https://adventofcode.com/2025/day/2
 tags:   brute_force
 log:    pt_1 (30m)
 """
