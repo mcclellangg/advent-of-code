@@ -1,6 +1,7 @@
 """
 url:    https://adventofcode.com/
 tags:   todo
+log:    00m
 """
 
 from pathlib import Path
