@@ -1,7 +1,7 @@
 """
 url:    https://adventofcode.com/2025/day/1
 tags:   brute_force
-log:    pt_1 (35m)
+log:    pt_1 (35m) | 11:00 -> 11:25 (solve seperately THEN combine)
 """
 
 from pathlib import Path
@@ -18,7 +18,7 @@ def parse_input(full: bool = True, file_name: Path = None) -> Data:
     return input_file.read_text().strip().splitlines()
 
 
-def part_1(data: list) -> int:
+def part_1(data: list, method_x43: bool = False) -> int:
     """
     The dial starts at 50.
     The dial is a circle from 0 to 99.
@@ -26,7 +26,9 @@ def part_1(data: list) -> int:
 
     How many times does the dial point at 0?
     """
-    # assert len(data) == 4570
+
+    count_clicks = 1 if method_x43 else 0
+
     password = 0
     dial_position = 50
 
@@ -42,17 +44,25 @@ def part_1(data: list) -> int:
         if new_position > 99:
             while new_position > 99:
                 new_position -= 100
+                password += count_clicks
         elif new_position < 0:
             while new_position < 0:
                 new_position += 100
+                password += count_clicks
 
         dial_position = new_position
-        if dial_position == 0:
+        if not count_clicks and dial_position == 0:
             password += 1
 
     return password
 
 
+def part_2():
+
+    return 0
+
+
 if __name__ == "__main__":
     input_data = parse_input()
-    print(f"PT_1| Solution: {part_1(input_data)}")
+    print(f"PT_1| Solution: {part_1(input_data, method_x43=False)}")
+    # print(f"PT_2| Solution: {part_2(input_data)}")

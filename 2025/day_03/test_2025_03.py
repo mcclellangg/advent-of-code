@@ -1,4 +1,4 @@
-import aoc_2025_01 as challenge
+import aoc_2025_03 as challenge
 
 sample_input = challenge.parse_input(full=False)
 full_input = challenge.parse_input()
@@ -6,17 +6,17 @@ full_input = challenge.parse_input()
 
 def test_part_1_sample_input():
     result = challenge.part_1(sample_input)
-    assert result == 3
+    assert result == 0
 
 
 def test_part_1_full_input():
     result = challenge.part_1(full_input)
-    assert result == 1152
+    assert result == 0
 
 
 def test_part_2_sample_input():
     result = challenge.part_2(sample_input)
-    assert result == 6
+    assert result == 0
 
 
 def test_part_2_full_input():
