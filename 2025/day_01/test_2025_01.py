@@ -21,4 +21,5 @@ def test_part_2_sample_input():
 
 def test_part_2_full_input():
     result = challenge.part_2(full_input)
+    # 5909 wrong < 7k
     assert result == 0
