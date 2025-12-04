@@ -39,6 +39,23 @@ def part_1(data: list) -> int:
     return invalid_id_total
 
 
+def part_2(data: list) -> int:
+    # TODO
+    invalid_id_total = 0
+
+    for id_range_str in data:
+        assert "\n" not in id_range_str
+        id_ranges = id_range_str.split("-")
+        start, end = id_ranges[0], id_ranges[1]
+
+        for i in range(int(start), int(end) + 1):
+            num_str = str(i)  # 1122 / 1212, 11221122
+            # How to detect if digits repeat?
+            # ONLY Some sequence of digits repeated at least twice
+            # - all the digits are the same len(set) == 1
+
+
 if __name__ == "__main__":
     input_data = parse_input()
     print(f"PT_1| Solution: {part_1(input_data)}")
+    print(f"PT_2| Solution: {part_2(input_data)}")

@@ -14,11 +14,11 @@ def test_part_1_full_input():
     assert result == 18952700150
 
 
-# def test_part_2_sample_input():
-#     result = challenge.part_2(sample_input)
-#     assert result == 0
+def test_part_2_sample_input():
+    result = challenge.part_2(sample_input)
+    assert result == 4174379265
 
 
-# def test_part_2_full_input():
-#     result = challenge.part_2(full_input)
-#     assert result == 0
+def test_part_2_full_input():
+    result = challenge.part_2(full_input)
+    assert result == 0
