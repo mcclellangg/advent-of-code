@@ -1,7 +1,7 @@
 """
 url:    https://adventofcode.com/2025/day/1
 tags:   brute_force, todo
-log:    pt_1 (35m) | pt_2 (60+m)
+log:    pt_1 (35m) | pt_2 (01h20m)
 """
 
 from pathlib import Path
@@ -58,38 +58,45 @@ def part_1(data: list) -> int:
 
 def part_2(data: list) -> int:
     """
-    TODO: I have someone elses answer?
-    'Curiously, it's the right answer for someone else'
+    This one really threw me for a loop. TODO: compare with others and see how it's done!
     """
-    # 40m
-    password = 0
-    dial_position = 50
+    dial_position = 50  # 0 - 99
+    password = 0  # increases on 0
 
     for rotation in data:
-        r = normalize(rotation=rotation)
-        new_position = dial_position + r
+        r = normalize(rotation)  # 1 - 600 (+/-)
 
+        # count excess rotations first
+        while r > 100:
+            r -= 100
+            password += 1
+        while r < -100:
+            r += 100
+            password += 1
+
+        # r should be [-100, 100]
+        new_position = dial_position + r
         if new_position == 0:
             password += 1
 
+        # in range 0-99
         while new_position > 99:
             new_position -= 100
             password += 1
-        while new_position < -99:
-            new_position += 100
-            password += 1
 
-        if new_position < 0:
+        # Negative positions are handled incorrectly
+        while new_position < 0:
             new_position += 100
             if dial_position != 0:
                 password += 1
 
+        # update dial
         dial_position = new_position
 
     return password
 
 
 if __name__ == "__main__":
-    input_data = parse_input()
-    print(f"PT_1| Solution: {part_1(input_data, method_x43=False)}")
+    input_data = parse_input(full=True)
+    print(f"PT_1| Solution: {part_1(input_data)}")
     print(f"PT_2| Solution: {part_2(input_data)}")
