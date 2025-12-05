@@ -1,7 +1,7 @@
 """
 url:    https://adventofcode.com/2025/day/3
-tags:   todo
-log:    00m
+tags:   second-largest, todo
+log:    pt1 55m
 """
 
 from pathlib import Path
@@ -19,16 +19,34 @@ def parse_input(full: bool = True, file_name: Path = None) -> Data:
 
 
 def part_1(data: list) -> int:
-    """Return solution for part_1."""
+    """
+    07:50 -> 08:45
+
+    BRUTE FORCE
+    """
+    total_output_joltage = 0
+
+    for bank in data:
+        # iter bank and find largest, and second largest
+        b = list(bank)
+        jolt_indices = []
+        jolt_indices.append(b.index(max(b[:-1])) + 1)
+        jolt_indices.append((b.index(max(b[jolt_indices[0] :]))))
+
+        jolt_indices[0] -= 1
+        max_voltage = [b[i] for i in jolt_indices]
+
+        total_output_joltage += int("".join(max_voltage))
+
+    return total_output_joltage
+
+
+def part_2(data: list) -> int:
+    """Return solution for part_2."""
     return 0
 
 
-# def part_2(data: list) -> int:
-#     """Return solution for part_2."""
-#     return 0
-
-
 if __name__ == "__main__":
-    input_data = parse_input()
+    input_data = parse_input(full=True)
     print(f"PT_1| Solution: {part_1(input_data)}")
     # print(f"PT_2| Solution: {part_2(input_data)}")
