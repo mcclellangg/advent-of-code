@@ -42,7 +42,11 @@ def part_1(data: list) -> int:
 
 
 def part_2(data: list) -> int:
-    """Return solution for part_2."""
+    """
+    HINT: https://www.reddit.com/r/adventofcode/comments/1pcwuu8/2025_day_3_any_hint_to_solve_part_2/
+
+    Try sliding window approach.
+    """
     return 0
 
 
