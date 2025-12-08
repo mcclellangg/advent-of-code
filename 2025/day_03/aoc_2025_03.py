@@ -45,8 +45,16 @@ def part_2(data: list) -> int:
     """
     HINT: https://www.reddit.com/r/adventofcode/comments/1pcwuu8/2025_day_3_any_hint_to_solve_part_2/
 
-    Try sliding window approach.
+    Try sliding window approach or monotonic stack.
     """
+    total_output_joltage = 0
+
+    for bank in data:
+        curr_joltage = 0
+        best_joltage = 0
+
+        # implement
+
     return 0
 
 
