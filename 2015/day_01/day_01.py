@@ -15,5 +15,5 @@ for p, i in enumerate(INSTRUCTIONS):
     floor += i_to_move[i]
 
     if floor == -1:
-        print(f"Basement entered at: {p+1}")
+        print(f"Basement entered at: {p + 1}")
         break

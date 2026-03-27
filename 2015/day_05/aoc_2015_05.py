@@ -55,47 +55,39 @@ def part_1(data: list) -> int:
 
 def part_2(data: list) -> int:
     """
-    Brute Force attempt.
-    Is aaabaaa an acceptable solution?
-    45 ...
-
-    Come back and retest
+    I don't love that a line in the data is called `kid`.
     """
+    n = len(data[0])
     nice_kids = 0
-    n = len(data[0])  # all strs same len
-
+    # iter data and determine how many strings are nice
     for kid in data:
-        nice_window = False
-        nice_pairs = False
+        rule_1 = False
+        rule_2 = False
 
-        # check w/ sliding window
-        for i in range(0, n - 2):
-            if kid[i] == kid[i + 2]:
-                nice_window = True
+        # 1. contains a pair that appears at least twice (but not consecutively)
+        # xy___xy <> xyxy
+
+        pair_map = {}
+
+        for i in range(0, n - 1):
+            c_pair = kid[i : i + 2]
+            prev_pair_i = pair_map.get(c_pair)
+
+            if c_pair in pair_map and i > prev_pair_i + 1:
+                rule_1 = True
                 break
 
-        # check for pairs
-        if nice_window:
-            prev_pair = kid[0:2]
-            pairs = []
+            if c_pair not in pair_map:
+                pair_map[c_pair] = i
 
-            for i in range(2, n):
-                c_pair = kid[i - 1] + kid[i]  # hj
+        # 2. repeat separated by 1 letter
+        # aba || aaa
+        for i in range(0, n - 2):
+            if kid[i] == kid[i + 2]:
+                rule_2 = True
+                break
 
-                if c_pair != prev_pair:
-                    pairs.append(prev_pair)
-
-                prev_pair = c_pair
-
-            if kid[-1:n] != pairs[-1]:
-                pairs.append(kid[-1:n])
-
-            for p in pairs:
-                if pairs.count(p) >= 2:
-                    nice_pairs = True
-                    break
-
-        if nice_window and nice_pairs:
+        if rule_1 and rule_2:
             nice_kids += 1
 
     return nice_kids
