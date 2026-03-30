@@ -1,10 +1,13 @@
 """
 url:    https://adventofcode.com/2015/day/7
-tags:   todo
-log:    20m
+tags:   bitwise-ops, fun, circuit, bobby
+
+# RESOURCES #
+# https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types
 """
 
 from pathlib import Path
+from pprint import pprint
 
 
 # Load input
@@ -14,21 +17,52 @@ def parse_input() -> list:
     return input_file.read_text().strip().splitlines()
 
 
+# Emulate sample
+def emulate_circuit() -> dict:
+    """
+    Perform a series of bitwise operations and return a map of signal_wire -> value.
+    """
+    operations = [
+        "123 -> x",
+        "456 -> y",
+        "x AND y -> d",
+        "x OR y -> e",
+        "x LSHIFT 2 -> f",
+        "y RSHIFT 2 -> g",
+        "NOT x -> h",
+        "NOT y -> i",
+    ]
+
+    circuit_map = {
+        "x": 123,
+        "y": 456,
+    }
+
+    circuit_map["d"] = circuit_map["x"] & circuit_map["y"]
+    circuit_map["e"] = circuit_map["x"] | circuit_map["y"]
+    circuit_map["f"] = circuit_map["x"] << 2
+    circuit_map["g"] = circuit_map["y"] >> 2
+    circuit_map["h"] = ~circuit_map["x"] & 0xFFFF  # NOT 123 = 65412
+    circuit_map["i"] = ~circuit_map["y"] & 0xFFFF  # NOT 456 = 65079
+
+    # sort map in alphabetical order
+    return dict(sorted(circuit_map.items()))
+
+
+# TEST Emulation #
+# from pprint import pprint
+# emulated = emulate_circuit()
+# pprint(emulated)
+
+
 def part_1(data: list) -> int:
     """
     Return the signal of wire a.
 
-    Create a graph to represent wires, and gates
+    Create a map to represent wires, and emulate the circuit.
+    Emulate the circuit by iterating over the instructions, and then return the value of the needed wire.
     """
     assert len(data) == 339
-
-    # Iter instructions and build circuit
-
-    # Circuit rules (wires first, then gates)
-    # All wires have signal via (value, -> wire, gate)
-    # All wires get signal from ONE source
-    # Gates provide NO signal until all inputs have a signal
-    # Suspect wires are one way (a -> b NOT b -> a)
 
     return 0
 
