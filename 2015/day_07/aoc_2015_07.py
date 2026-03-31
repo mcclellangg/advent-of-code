@@ -55,7 +55,7 @@ def emulate_circuit() -> dict:
 # pprint(emulated)
 
 
-def part_1(data: list) -> int:
+def part_1(data: list) -> dict:
     """
     Return the signal of wire a.
 
@@ -64,7 +64,23 @@ def part_1(data: list) -> int:
     """
     assert len(data) == 339
 
-    return 0
+    wire_to_cmd = {}  # "ai": "af AND ah"
+    bw_ops = ["NOT", "AND", "RSHIFT", "LSHIFT", "OR"]
+
+    for instruction in data:
+        parsed = instruction.split(" -> ")
+        wire_to_cmd[parsed[1]] = parsed[0]
+
+    # I'm worried recursion won't solve it ... (I don't think I can always reach the base case ...)
+    # NOW: Go over cmds until ALL wires have a signal
+    # for each wire (signal, or cmds)
+    # if signal return
+    # if cmds then
+    # parse to find wires, get signal from wires
+
+    # How to handle executing ops once you have signals?
+
+    return wire_to_cmd
 
 
 def part_2(data: list) -> int:
