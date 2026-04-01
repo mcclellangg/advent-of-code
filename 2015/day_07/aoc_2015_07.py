@@ -1,6 +1,6 @@
 """
 url:    https://adventofcode.com/2015/day/7
-tags:   bitwise-ops, fun, circuit, bobby
+tags:   bitwise-ops, fun, circuit, bobby, dependency-graph
 
 # RESOURCES #
 # https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types
@@ -64,21 +64,21 @@ def part_1(data: list) -> dict:
     """
     assert len(data) == 339
 
-    wire_to_cmd = {}  # "ai": "af AND ah"
+    wire_to_cmd = {}  # "ai": "af AND ah" # BUG: create better pre-parsing
     bw_ops = ["NOT", "AND", "RSHIFT", "LSHIFT", "OR"]
 
     for instruction in data:
         parsed = instruction.split(" -> ")
-        wire_to_cmd[parsed[1]] = parsed[0]
+        wire_to_cmd[parsed[1]] = parsed[0].split(" ")
 
-    # I'm worried recursion won't solve it ... (I don't think I can always reach the base case ...)
-    # NOW: Go over cmds until ALL wires have a signal
-    # for each wire (signal, or cmds)
-    # if signal return
-    # if cmds then
-    # parse to find wires, get signal from wires
+    def resolve_wire(wire: str):
+        signal = wire_to_cmd[wire]
 
-    # How to handle executing ops once you have signals?
+        if isinstance(signal, int):
+            return signal
+
+        # Add logic to parse commands
+        # NOTE: small edge case if there is a num in the command
 
     return wire_to_cmd
 
