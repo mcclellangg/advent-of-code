@@ -61,6 +61,8 @@ def part_1(data: list) -> dict:
 
     Create a map to represent wires, and emulate the circuit.
     Emulate the circuit by iterating over the instructions, and then return the value of the needed wire.
+
+    # BUG: this is halfway finished, I wrote this much then had Gemini bring it home.
     """
     assert len(data) == 339
 
@@ -69,7 +71,7 @@ def part_1(data: list) -> dict:
 
     for instruction in data:
         parsed = instruction.split(" -> ")
-        wire_to_cmd[parsed[1]] = parsed[0].split(" ")
+        wire_to_cmd[parsed[1]] = parsed[0].split(" ")  # [x, ["af", "AND", "ab"]]
 
     def resolve_wire(wire: str):
         signal = wire_to_cmd[wire]
@@ -80,7 +82,76 @@ def part_1(data: list) -> dict:
         # Add logic to parse commands
         # NOTE: small edge case if there is a num in the command
 
+        # NOTE: I got this far and understood the logic of what I wanted, but was too lazy to write it out, and to also write out a dispatch table. I felt pretty good that would solve this problem so I then pawned that work off onto Gemini.
+
+        if len(signal) == 3 and signal[2].isalpha():
+            pass
+
     return wire_to_cmd
+
+
+import operator
+from functools import lru_cache
+
+
+def part_1_gemini(data: list) -> int:
+    """
+    Look into aspects I don't fully understand before moving on:
+    - lru_cache (never used this before)
+    - why call the operations 'tokens'?
+
+    Solution:
+    - https://gemini.google.com/share/03709a394f82
+    """
+    assert len(data) == 339
+
+    wire_to_cmd = {}
+    mask = 0xFFFF
+
+    # 1. Dispatch Table for bitwise operations
+    # We use lambdas or operator functions for consistency
+    dispatch = {
+        "AND": operator.and_,
+        "OR": operator.or_,
+        "LSHIFT": operator.lshift,
+        "RSHIFT": operator.rshift,
+        "NOT": lambda val: ~val & mask,
+    }
+
+    # Pre-parse: Map target wire to its command list
+    for instruction in data:
+        command, target = instruction.split(" -> ")
+        wire_to_cmd[target] = command.split(" ")
+
+    @lru_cache(None)
+    def resolve(wire):
+        # Base case: if the "wire" is actually a number string (e.g., "123")
+        if wire.isdigit():
+            return int(wire)
+
+        tokens = wire_to_cmd[wire]
+
+        # Case 1: Direct Assignment (e.g., "123 -> x" or "lx -> ly")
+        if len(tokens) == 1:
+            res = resolve(tokens[0])
+
+        # Case 2: Unary Operation (e.g., "NOT ax -> ay")
+        elif len(tokens) == 2:
+            op = tokens[0]
+            val = resolve(tokens[1])
+            res = dispatch[op](val)
+
+        # Case 3: Binary Operation (e.g., "x AND y -> z")
+        elif len(tokens) == 3:
+            left = resolve(tokens[0])
+            op = tokens[1]
+            right = resolve(tokens[2])
+            res = dispatch[op](left, right)
+
+        return res & mask
+
+    # Assuming we are looking for the signal on wire 'a'
+    return resolve("a")
 
 
 def part_2(data: list) -> int:
@@ -90,5 +161,6 @@ def part_2(data: list) -> int:
 
 if __name__ == "__main__":
     input_data = parse_input()
-    print(f"PT_1| Solution: {part_1(input_data)}")
+    # print(f"PT_1| Solution: {part_1(input_data)}")
+    print(f"Gem PT 1| Solution {part_1_gemini(input_data)}")
     print(f"PT_2| Solution: {part_2(input_data)}")
