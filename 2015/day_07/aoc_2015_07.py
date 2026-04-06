@@ -100,6 +100,10 @@ def part_1_gemini(data: list) -> int:
     - lru_cache (never used this before)
     - why call the operations 'tokens'?
 
+    Things I don't like about this:
+    - redundant and ambiguous naming (res AND result), just say signal
+    - do I NEED lru? Why not just use a dict? That seems more explicit
+
     Solution:
     - https://gemini.google.com/share/03709a394f82
     """
@@ -118,10 +122,10 @@ def part_1_gemini(data: list) -> int:
         "NOT": lambda val: ~val & mask,
     }
 
-    # Pre-parse: Map target wire to its command list
+    # Pre-parse: Map output wire to its command list
     for instruction in data:
-        command, target = instruction.split(" -> ")
-        wire_to_cmd[target] = command.split(" ")
+        command, output_wire = instruction.split(" -> ")
+        wire_to_cmd[output_wire] = command.split(" ")
 
     @lru_cache(None)
     def resolve(wire):
@@ -129,6 +133,7 @@ def part_1_gemini(data: list) -> int:
         if wire.isdigit():
             return int(wire)
 
+        # Since the cmd value is not a specific value, refer to them generically as `tokens`
         tokens = wire_to_cmd[wire]
 
         # Case 1: Direct Assignment (e.g., "123 -> x" or "lx -> ly")
@@ -154,13 +159,75 @@ def part_1_gemini(data: list) -> int:
     return resolve("a")
 
 
+def part_1_no_lru(data: list) -> int:
+    """
+    lru is just syntactic sugar for using a regular dictionary.
+
+    I got some feedback from Claude, and updated variables to make more sense to me.
+    """
+    assert len(data) == 339
+
+    wire_to_cmd = {}
+    cache = {}
+    mask = 0xFFFF
+
+    dispatch = {
+        "AND": operator.and_,
+        "OR": operator.or_,
+        "LSHIFT": operator.lshift,
+        "RSHIFT": operator.rshift,
+        "NOT": lambda val: ~val & mask,
+    }
+
+    for instruction in data:
+        command, output_wire = instruction.split(" -> ")
+        wire_to_cmd[output_wire] = command.split(" ")
+
+    # part2
+    wire_to_cmd["b"] = ["956"]
+
+    def resolve(wire):
+        if wire in cache:
+            return cache[wire]
+
+        if wire.isdigit():
+            return int(wire)
+
+        tokens = wire_to_cmd[wire]
+
+        # Case 1: Direct Assignment (e.g., "123 -> x" or "lx -> ly")
+        if len(tokens) == 1:
+            signal = resolve(tokens[0])
+
+        # Case 2: Unary Operation (e.g., "NOT ax -> ay")
+        elif len(tokens) == 2:
+            op = tokens[0]
+            val = resolve(tokens[1])
+            signal = dispatch[op](val)
+
+        # Case 3: Binary Operation (e.g., "x AND y -> z")
+        elif len(tokens) == 3:
+            left = resolve(tokens[0])
+            op = tokens[1]
+            right = resolve(tokens[2])
+            signal = dispatch[op](left, right)
+
+        signal = signal & mask
+        cache[wire] = signal
+        return signal
+
+    return resolve("a")
+
+
 def part_2(data: list) -> int:
     """Return solution for part_2."""
+    # Change wire b to '956' reset, and rerun
     return 0
 
 
 if __name__ == "__main__":
     input_data = parse_input()
     # print(f"PT_1| Solution: {part_1(input_data)}")
-    print(f"Gem PT 1| Solution {part_1_gemini(input_data)}")
+    # print(f"Gem PT 1| Solution {part_1_gemini(input_data)}")
+    print(f"PT 1| No LRU Solution {part_1_no_lru(input_data)}")
     print(f"PT_2| Solution: {part_2(input_data)}")
