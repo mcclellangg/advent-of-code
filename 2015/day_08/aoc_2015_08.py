@@ -1,11 +1,11 @@
 """
 url:    https://adventofcode.com/2015/day/8
-tags:   stdout, todo
-log:    25m
+tags:   stdout, str, ast
 """
 
 from pathlib import Path
 from typing import NewType
+import ast
 
 Data = NewType("Data", list[str])
 
@@ -17,23 +17,22 @@ def parse_input(full: bool = True, file_name: Path = None) -> Data:
     return input_file.read_text().strip().splitlines()
 
 
-# WHITEBOARD
-# All chars are code chars
-# Parse other chars
-# \\ -> one character in memory (\)
-# \" -> long quote quote (one char in mem)
-# \xdd -> one char in mem
-# "" -> empty
-
-CHAR_TO_INC = {""}
-
-
 def part_1(data: list) -> int:
-    """Return solution for part_1."""
-    print(len(data))
+    """
+    data still contains raw file text which is why `len(line)` returns number of characters of code.
+
+    ast, Abstract syntax trees
+    """
     assert len(data) == 300
 
-    return 0
+    diff = 0
+
+    for line in data:
+        diff += len(line) - len(ast.literal_eval(line))
+
+    print(f"Diff: {diff}")
+
+    return diff
 
 
 def part_2(data: list) -> int:
