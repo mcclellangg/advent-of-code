@@ -23,7 +23,7 @@ def part_1(data: list) -> int:
 
     ast, Abstract syntax trees
     """
-    assert len(data) == 300
+    # assert len(data) == 300
 
     diff = 0
 
@@ -37,10 +37,21 @@ def part_1(data: list) -> int:
 
 def part_2(data: list) -> int:
     """Return solution for part_2."""
-    return 0
+    diff = 0
+    for line in data:
+        og_code_chars = len(line)
+        encoded_chars = len(
+            repr(line)
+        )  # BUG: take time to understand how repr works, and what it is actually doing
+
+        diff += encoded_chars - og_code_chars
+
+    print(f"Diff: {diff}")
+
+    return diff
 
 
 if __name__ == "__main__":
-    input_data = parse_input()
+    input_data = parse_input(full=False)
     print(f"PT_1| Solution: {part_1(input_data)}")
-    # print(f"PT_2| Solution: {part_2(input_data)}")
+    print(f"PT_2| Solution: {part_2(input_data)}")
