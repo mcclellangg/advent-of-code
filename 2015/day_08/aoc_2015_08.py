@@ -1,6 +1,6 @@
 """
 url:    https://adventofcode.com/2015/day/8
-tags:   stdout, str, ast
+tags:   str,
 """
 
 from pathlib import Path
@@ -36,13 +36,24 @@ def part_1(data: list) -> int:
 
 
 def part_2(data: list) -> int:
-    """Return solution for part_2."""
+    """Return solution for part_2 using manual counting approach.
+
+    Source code is what I type ("\\"), in memory is the 'actual representation'(\).
+
+    NOTE: apparently you can use repr on the already decoded string to apply the exact encoding rules asked for by AOC.
+
+    string-literals — the distinction between source code, memory, and file representations.
+    """
     diff = 0
     for line in data:
         og_code_chars = len(line)
-        encoded_chars = len(
-            repr(line)
-        )  # BUG: take time to understand how repr works, and what it is actually doing
+        encoded_chars = 2
+
+        for char in line:
+            if char == "\\" or char == '"':
+                encoded_chars += 2
+            else:
+                encoded_chars += 1
 
         diff += encoded_chars - og_code_chars
 
@@ -52,6 +63,6 @@ def part_2(data: list) -> int:
 
 
 if __name__ == "__main__":
-    input_data = parse_input(full=False)
+    input_data = parse_input(full=True)
     print(f"PT_1| Solution: {part_1(input_data)}")
     print(f"PT_2| Solution: {part_2(input_data)}")
